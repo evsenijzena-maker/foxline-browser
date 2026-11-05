@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src https:; frame-src https: http:;" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Foxline</title>
+  <link rel="stylesheet" href="styles/app.css" />
+</head>
+<body class="theme-dark">
+  <div id="app">
+    <header class="titlebar">
+      <div class="tabs-area">
+        <div class="brand"><img class="brand-avatar" src="../../assets/foxline-avatar.png" alt="Foxline"/><span>Foxline</span></div>
+        <div id="tabs" class="tabs"></div>
+        <button id="newTabBtn" class="icon-btn add-tab" title="Новая вкладка (Ctrl+T)">+</button>
+      </div>
+      <div class="window-controls">
+        <button class="win-btn" data-win="minimize">—</button>
+        <button class="win-btn" data-win="maximize">▢</button>
+        <button class="win-btn close" data-win="close">✕</button>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <button id="backBtn" class="icon-btn" title="Назад">←</button>
+      <button id="forwardBtn" class="icon-btn" title="Вперёд">→</button>
+      <button id="reloadBtn" class="icon-btn" title="Обновить">↻</button>
+      <button id="homeBtn" class="icon-btn" title="Домой">⌂</button>
+      <form id="addressForm" class="address-wrap">
+        <input id="addressInput" class="address" spellcheck="false" placeholder="Введите адрес или запрос Google" />
+        <button id="goBtn" class="go-btn" type="submit">Go</button>
+      </form>
+      <button id="bookmarkBtn" class="icon-btn" title="В закладки">☆</button>
+      <button id="downloadsBtn" class="icon-btn" title="Загрузки">↓</button>
+      <button id="menuBtn" class="icon-btn" title="Меню">☰</button>
+    </div>
+
+    <div id="menu" class="menu hidden">
+      <button data-action="new-tab">Новая вкладка</button>
+      <button data-action="new-window">Новое окно</button>
+      <button data-action="new-incognito">Новое окно инкогнито</button>
+      <hr/>
+      <button data-action="bookmarks">Закладки</button>
+      <button data-action="history">История</button>
+      <button data-action="downloads">Загрузки</button>
+      <button data-action="settings">Настройки</button>
+      <button data-action="about">Что нового</button>
+      <hr/>
+      <button data-action="set-default">Сделать браузером по умолчанию</button>
+    </div>
+
+    <main id="content" class="content"></main>
+
+    <aside id="downloadsPanel" class="panel hidden">
+      <div class="panel-head"><h3>Загрузки</h3><button class="icon-btn" data-close="downloadsPanel">✕</button></div>
+      <div id="downloadsList" class="panel-body"></div>
+    </aside>
+  </div>
+  <script src="scripts/app.js"></script>
+</body>
+</html>

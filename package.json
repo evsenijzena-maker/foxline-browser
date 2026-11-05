@@ -1,0 +1,50 @@
+{
+  "name": "foxline-browser",
+  "productName": "Foxline",
+  "version": "1.0.0",
+  "description": "Foxline — modern web browser",
+  "main": "src/main/main.js",
+  "author": "Foxline",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win nsis",
+    "dist:publish": "electron-builder --win nsis --publish always"
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.3"
+  },
+  "devDependencies": {
+    "electron": "^31.7.7",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.foxline.browser",
+    "productName": "Foxline",
+    "directories": { "output": "dist", "buildResources": "build" },
+    "files": ["src/**/*", "assets/**/*", "package.json"],
+    "asar": true,
+    "publish": { "provider": "github", "owner": "zenae6284-byte", "repo": "foxline-brower" },
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "icon": "build/icon.ico",
+      "artifactName": "Foxline Setup.${ext}",
+      "executableName": "Foxline"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Foxline",
+      "uninstallDisplayName": "Foxline Browser",
+      "artifactName": "Foxline Setup.exe",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico"
+    },
+    "protocols": [{ "name": "Foxline Web", "schemes": ["http", "https"] }],
+    "fileAssociations": []
+  }
+}
