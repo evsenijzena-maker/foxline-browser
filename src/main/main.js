@@ -17,18 +17,18 @@ function loadData() {
     bookmarks: [],
     history: [],
     sessionTabs: [],
-    sessionActiveTab: 'foxline://home',
+    sessionActiveTab: 'http://foxline.com',
     settings: {
       theme: 'dark',
-      homePage: 'foxline://home',
+      homePage: 'http://foxline.com',
       searchEngine: 'https://www.google.com/search?q=',
       startupTiles: [
-        { title: 'Google', url: 'https://www.google.com' },
+        { title: 'Foxline', url: 'http://foxline.com' },
         { title: 'YouTube', url: 'https://www.youtube.com' },
         { title: 'Wikipedia', url: 'https://www.wikipedia.org' },
         { title: 'GitHub', url: 'https://github.com' },
-        { title: 'News', url: 'https://news.google.com' },
-        { title: 'Mail', url: 'https://mail.google.com' }
+        { title: 'Новости', url: 'https://www.google.com/search?q=новости' },
+        { title: 'Почта', url: 'https://mail.google.com' }
       ]
     }
   };

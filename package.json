@@ -26,7 +26,7 @@
     "directories": { "output": "dist", "buildResources": "build" },
     "files": ["src/**/*", "assets/**/*", "package.json"],
     "asar": true,
-    "publish": { "provider": "github", "owner": "zenae6284-byte", "repo": "foxline-brower" },
+    "publish": { "provider": "github", "owner": "evsenijzena-maker", "repo": "foxline-browser" },
     "win": {
       "target": [{ "target": "nsis", "arch": ["x64"] }],
       "icon": "build/icon.ico",

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src https:; frame-src https: http:;" />
@@ -23,12 +23,12 @@
     </header>
 
     <div class="toolbar">
-      <button id="backBtn" class="icon-btn" title="Назад">←</button>
-      <button id="forwardBtn" class="icon-btn" title="Вперёд">→</button>
-      <button id="reloadBtn" class="icon-btn" title="Обновить">↻</button>
-      <button id="homeBtn" class="icon-btn" title="Домой">⌂</button>
+      <button id="backBtn" class="icon-btn nav-btn" type="button" title="Назад">←</button>
+      <button id="forwardBtn" class="icon-btn nav-btn" type="button" title="Вперёд">→</button>
+      <button id="reloadBtn" class="icon-btn" type="button" title="Обновить">↻</button>
+      <button id="homeBtn" class="icon-btn" type="button" title="Домой">⌂</button>
       <form id="addressForm" class="address-wrap">
-        <input id="addressInput" class="address" spellcheck="false" placeholder="Введите адрес или запрос Google" />
+        <input id="addressInput" class="address" spellcheck="false" placeholder="Поиск в Foxline или адрес сайта" />
         <button id="goBtn" class="go-btn" type="submit">Go</button>
       </form>
       <button id="bookmarkBtn" class="icon-btn" title="В закладки">☆</button>
@@ -57,6 +57,7 @@
       <div id="downloadsList" class="panel-body"></div>
     </aside>
   </div>
+  <script src="i18n/i18n.js"></script>
   <script src="scripts/app.js"></script>
 </body>
 </html>
