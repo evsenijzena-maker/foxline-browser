@@ -25,6 +25,9 @@ function applyI18n(){ document.documentElement.lang=lang(); if(lang()==='ar') do
 }
 const FOXLINE_SEARCH_URL = 'foxline://search?q=';
 
+function displayAddress(url){ try{ const u=new URL(url); if(u.hostname.includes('google.') && u.pathname.startsWith('/search')) { const q=u.searchParams.get('q'); if(q) return 'https://www.foxline.com/search?q='+encodeURIComponent(q); } }catch{} if(!url||url==='foxline://home'||url==='foxline://home/'||url.startsWith('foxline://')) return ''; return url; }
+function foxlineSearchTarget(q){ const provider = (store.settings.searchEngine || 'https://www.google.com/search?q='); return provider.includes('{q}') ? provider.replace('{q}', encodeURIComponent(q||'')) : (provider + encodeURIComponent(q||'')); }
+function parseFoxlineSearch(url){ try{ const u=new URL(url); const h=u.hostname.toLowerCase(); if((h==='foxline.com'||h==='www.foxline.com'||h.endsWith('.foxline.com')) && u.pathname==='/search') return u.searchParams.get('q')??''; }catch{} return null; }
 function foxlineSearchUrl(query) {
   return FOXLINE_SEARCH_URL + encodeURIComponent(query || '');
 }
