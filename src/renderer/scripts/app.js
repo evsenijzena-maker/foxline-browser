@@ -175,7 +175,7 @@ function activateTab(id) {
   tabs.forEach(t => { if (t.view) t.view.classList.toggle('hidden', t.id !== id); });
   renderTabs();
   const t = currentTab();
-  if (t) { const u=t.url||''; addressInput.value = (u==='foxline://home'||u==='http://foxline.com/'||u.startsWith('foxline://')) ? '' : u; }
+  if (t) addressInput.value = displayAddress(t.url||'');
   saveSession();
   setTimeout(updateNavButtons, 0);
 }
@@ -224,6 +224,8 @@ function loadInTab(tab, url) {
       updateNavButtons();
     });
     wv.addEventListener('page-title-updated', (e) => { tab.title = e.title || titleFor(tab.url); renderTabs(); saveSession(); });
+    wv.addEventListener('did-navigate', (e) => updateNavState(tab, e.url));
+    wv.addEventListener('did-navigate-in-page', (e) => updateNavState(tab, e.url));
     wv.addEventListener('dom-ready', () => {
       try { const t = wv.getTitle(); if (t) tab.title = t; } catch {}
       renderTabs();
@@ -238,13 +240,13 @@ function loadInTab(tab, url) {
     contentEl.appendChild(wv);
     tab.view = wv;
   }
-  if (tab.id === activeId) addressInput.value = (url==='foxline://home'||url==='http://foxline.com/'||url.startsWith('foxline://')) ? '' : url;
+  if (tab.id === activeId) addressInput.value = displayAddress(url);
   renderTabs();
 }
 
 async function updateNavState(tab, url) {
   tab.url = url;
-  if (tab.id === activeId) addressInput.value = url;
+  if (tab.id === activeId) addressInput.value = displayAddress(url);
   renderTabs();
   saveSession();
   updateNavButtons();
