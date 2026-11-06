@@ -152,7 +152,7 @@ function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;'
 
 function createTab(url, opts = {}) {
   const id = uid();
-  const tab = { id, url: normalize(url), title: 'Новая вкладка', view: null };
+  const tab = { id, url: normalize(url), title: t('newTab','New tab'), view: null };
   tabs.push(tab);
   renderTabs();
   activateTab(id);

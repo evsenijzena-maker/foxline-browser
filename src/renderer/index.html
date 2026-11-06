@@ -13,47 +13,47 @@
       <div class="tabs-area">
         <div class="brand"><img class="brand-avatar" src="../../assets/foxline-avatar.png" alt="Foxline"/><span>Foxline</span></div>
         <div id="tabs" class="tabs"></div>
-        <button id="newTabBtn" class="icon-btn add-tab" title="Новая вкладка (Ctrl+T)">+</button>
+        <button id="newTabBtn" class="icon-btn add-tab" type="button" data-i18n-title="newTab" title="New tab">+</button>
       </div>
       <div class="window-controls">
-        <button class="win-btn" data-win="minimize">—</button>
-        <button class="win-btn" data-win="maximize">▢</button>
-        <button class="win-btn close" data-win="close">✕</button>
+        <button class="win-btn" data-win="minimize" type="button">—</button>
+        <button class="win-btn" data-win="maximize" type="button">▢</button>
+        <button class="win-btn close" data-win="close" type="button">✕</button>
       </div>
     </header>
 
     <div class="toolbar">
-      <button id="backBtn" class="icon-btn nav-btn" type="button" title="Назад">←</button>
-      <button id="forwardBtn" class="icon-btn nav-btn" type="button" title="Вперёд">→</button>
-      <button id="reloadBtn" class="icon-btn" type="button" title="Обновить">↻</button>
-      <button id="homeBtn" class="icon-btn" type="button" title="Домой">⌂</button>
+      <button id="backBtn" class="icon-btn nav-btn" type="button" data-i18n-title="back" title="Back">←</button>
+      <button id="forwardBtn" class="icon-btn nav-btn" type="button" data-i18n-title="forward" title="Forward">→</button>
+      <button id="reloadBtn" class="icon-btn" type="button" data-i18n-title="reload" title="Reload">↻</button>
+      <button id="homeBtn" class="icon-btn" type="button" data-i18n-title="home" title="Home">⌂</button>
       <form id="addressForm" class="address-wrap">
-        <input id="addressInput" class="address" spellcheck="false" placeholder="Поиск в Foxline или адрес сайта" />
+        <div class="address-shell"><span class="address-brand">F</span><input id="addressInput" class="address" spellcheck="false" data-i18n-placeholder="addressPlaceholder" placeholder="Search or enter address" /></div>
         <button id="goBtn" class="go-btn" type="submit">Go</button>
       </form>
-      <button id="bookmarkBtn" class="icon-btn" title="В закладки">☆</button>
-      <button id="downloadsBtn" class="icon-btn" title="Загрузки">↓</button>
-      <button id="menuBtn" class="icon-btn" title="Меню">☰</button>
+      <button id="bookmarkBtn" class="icon-btn" type="button" data-i18n-title="addBookmark" title="Bookmark">☆</button>
+      <button id="downloadsBtn" class="icon-btn" type="button" data-i18n-title="downloads" title="Downloads">↓</button>
+      <button id="menuBtn" class="icon-btn" type="button" data-i18n-title="menu" title="Menu">☰</button>
     </div>
 
     <div id="menu" class="menu hidden">
-      <button data-action="new-tab">Новая вкладка</button>
-      <button data-action="new-window">Новое окно</button>
-      <button data-action="new-incognito">Новое окно инкогнито</button>
+      <button data-action="new-tab" data-i18n="newTab">New tab</button>
+      <button data-action="new-window" data-i18n="newWindow">New window</button>
+      <button data-action="new-incognito" data-i18n="newIncognito">New incognito window</button>
       <hr/>
-      <button data-action="bookmarks">Закладки</button>
-      <button data-action="history">История</button>
-      <button data-action="downloads">Загрузки</button>
-      <button data-action="settings">Настройки</button>
-      <button data-action="about">Что нового</button>
+      <button data-action="bookmarks" data-i18n="bookmarks">Bookmarks</button>
+      <button data-action="history" data-i18n="history">History</button>
+      <button data-action="downloads" data-i18n="downloads">Downloads</button>
+      <button data-action="settings" data-i18n="settings">Settings</button>
+      <button data-action="about" data-i18n="whatsNew">What's new</button>
       <hr/>
-      <button data-action="set-default">Сделать браузером по умолчанию</button>
+      <button data-action="set-default" data-i18n="setDefault">Set as default browser</button>
     </div>
 
     <main id="content" class="content"></main>
 
     <aside id="downloadsPanel" class="panel hidden">
-      <div class="panel-head"><h3>Загрузки</h3><button class="icon-btn" data-close="downloadsPanel">✕</button></div>
+      <div class="panel-head"><h3 data-i18n="downloads">Downloads</h3><button class="icon-btn" data-close="downloadsPanel" type="button">✕</button></div>
       <div id="downloadsList" class="panel-body"></div>
     </aside>
   </div>
