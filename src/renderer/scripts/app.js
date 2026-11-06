@@ -8,7 +8,7 @@ const downloadsList = document.getElementById('downloadsList');
 
 const params = new URLSearchParams(location.search);
 const incognito = params.get('incognito') === '1';
-let store = { bookmarks: [], history: [], settings: { theme: 'dark', homePage: 'http://foxline.com', searchEngine: 'https://www.google.com/search?q=', language: 'auto', startupTiles: [] } };
+let store = { bookmarks: [], history: [], settings: { theme: 'dark', homePage: 'foxline://home', searchEngine: 'https://www.google.com/search?q=', language: 'auto', startupTiles: [] } };
 let tabs = [];
 let activeId = null;
 let downloadItems = [];
@@ -31,7 +31,7 @@ function foxlineSearchUrl(query) {
 
 function isUrl(input) { return /^(https?:\/\/|file:\/\/|foxline:\/\/)/i.test(input) || (/^[\w-]+\.[a-z]{2,}/i.test(input) && !input.includes(' ')); }
 function normalize(input) {
-  if (!input) return store.settings.homePage || 'http://foxline.com';
+  if (!input) return store.settings.homePage || 'foxline://home';
   if (input.startsWith('foxline://search')) {
     const q = new URLSearchParams(input.split('?')[1] || '').get('q') || '';
     const provider = (store.settings.searchEngine || 'https://www.google.com/search?q=');
@@ -45,7 +45,7 @@ function normalize(input) {
   return provider.includes('{q}') ? provider.replace('{q}', encodeURIComponent(input)) : (provider + encodeURIComponent(input));
 }
 function titleFor(url) {
-  if (url === 'http://foxline.com' || url === 'http://foxline.com/') return t('home','Home');
+  if (url === 'foxline://home' || url === 'http://foxline.com/') return t('home','Home');
   if (url.startsWith('foxline://search')) return t('search','Search');
   if (url === 'foxline://settings') return t('settings','Settings');
   if (url === 'foxline://bookmarks') return t('bookmarks','Bookmarks');
@@ -67,20 +67,20 @@ async function init() {
   if (!incognito && Array.isArray(store.sessionTabs) && store.sessionTabs.length) {
     const active = store.sessionActiveTab;
     store.sessionTabs.forEach(u => { if (u && !String(u).startsWith('foxline://about?')) createTab(u); });
-    if (!tabs.length) createTab(store.settings.homePage || 'http://foxline.com');
+    if (!tabs.length) createTab(store.settings.homePage || 'foxline://home');
     const found = tabs.find(t => t.url === active);
     if (found) activateTab(found.id);
   } else {
-    createTab(store.settings.homePage || 'http://foxline.com');
+    createTab(store.settings.homePage || 'foxline://home');
   }
 }
 
 function bindUI() {
-  document.getElementById('newTabBtn').onclick = () => createTab(store.settings.homePage || 'http://foxline.com');
+  document.getElementById('newTabBtn').onclick = () => createTab(store.settings.homePage || 'foxline://home');
   (() => { const b=document.getElementById('backBtn'); if(!b) return; const h=(e)=>{e.preventDefault();e.stopPropagation();nav('back');}; b.addEventListener('click',h); b.addEventListener('mousedown',(e)=>e.preventDefault()); })();
   (() => { const b=document.getElementById('forwardBtn'); if(!b) return; const h=(e)=>{e.preventDefault();e.stopPropagation();nav('forward');}; b.addEventListener('click',h); b.addEventListener('mousedown',(e)=>e.preventDefault()); })();
   document.getElementById('reloadBtn').onclick = () => nav('reload');
-  document.getElementById('homeBtn').onclick = () => loadInActive(store.settings.homePage || 'http://foxline.com');
+  document.getElementById('homeBtn').onclick = () => loadInActive(store.settings.homePage || 'foxline://home');
   document.getElementById('bookmarkBtn').onclick = addCurrentBookmark;
   document.getElementById('downloadsBtn').onclick = () => downloadsPanel.classList.toggle('hidden');
   document.getElementById('menuBtn').onclick = () => menu.classList.toggle('hidden');
@@ -90,7 +90,7 @@ function bindUI() {
   menu.addEventListener('click', async (e) => {
     const btn = e.target.closest('button[data-action]'); if (!btn) return;
     const a = btn.dataset.action; menu.classList.add('hidden');
-    if (a === 'new-tab') createTab(store.settings.homePage || 'http://foxline.com');
+    if (a === 'new-tab') createTab(store.settings.homePage || 'foxline://home');
     if (a === 'new-window') window.foxline.newWindow(false);
     if (a === 'new-incognito') window.foxline.newWindow(true);
     if (a === 'bookmarks') loadInActive('foxline://bookmarks');
@@ -108,7 +108,7 @@ function bindUI() {
   });
   document.addEventListener('keydown', (e) => {
     const ctrl = e.ctrlKey || e.metaKey;
-    if (ctrl && e.key.toLowerCase() === 't') { e.preventDefault(); createTab(store.settings.homePage || 'http://foxline.com'); }
+    if (ctrl && e.key.toLowerCase() === 't') { e.preventDefault(); createTab(store.settings.homePage || 'foxline://home'); }
     if (ctrl && e.key.toLowerCase() === 'w') { e.preventDefault(); closeTab(activeId); }
     if (ctrl && e.key.toLowerCase() === 'l') { e.preventDefault(); addressInput.focus(); addressInput.select(); }
     if (ctrl && e.key.toLowerCase() === 'r') { e.preventDefault(); nav('reload'); }
@@ -163,7 +163,7 @@ function closeTab(id) {
   if (tab.view) tab.view.remove();
   tabs.splice(idx, 1);
   saveSession();
-  if (!tabs.length) return createTab(store.settings.homePage || 'http://foxline.com');
+  if (!tabs.length) return createTab(store.settings.homePage || 'foxline://home');
   if (activeId === id) activateTab(tabs[Math.max(0, idx - 1)].id); else renderTabs();
 }
 
@@ -172,7 +172,7 @@ function activateTab(id) {
   tabs.forEach(t => { if (t.view) t.view.classList.toggle('hidden', t.id !== id); });
   renderTabs();
   const t = currentTab();
-  if (t) { const u=t.url||''; addressInput.value = (u==='http://foxline.com'||u==='http://foxline.com/'||u.startsWith('foxline://')) ? '' : u; }
+  if (t) { const u=t.url||''; addressInput.value = (u==='foxline://home'||u==='http://foxline.com/'||u.startsWith('foxline://')) ? '' : u; }
   saveSession();
   setTimeout(updateNavButtons, 0);
 }
@@ -191,6 +191,8 @@ function saveSession() {
 function loadInActive(url) { const t = currentTab(); if (t) loadInTab(t, url); }
 
 function loadInTab(tab, url) {
+  const fq = parseFoxlineSearch(url);
+  if (fq !== null) { return loadInTab(tab, foxlineSearchTarget(fq)); }
   tab.url = url;
   if (tab.view) tab.view.remove();
   if (url.startsWith('foxline://')) {
@@ -233,7 +235,7 @@ function loadInTab(tab, url) {
     contentEl.appendChild(wv);
     tab.view = wv;
   }
-  if (tab.id === activeId) addressInput.value = (url==='http://foxline.com'||url==='http://foxline.com/'||url.startsWith('foxline://')) ? '' : url;
+  if (tab.id === activeId) addressInput.value = (url==='foxline://home'||url==='http://foxline.com/'||url.startsWith('foxline://')) ? '' : url;
   renderTabs();
 }
 
@@ -280,7 +282,7 @@ function renderInternal(url) {
     setTimeout(() => loadInActive(target), 0);
     return `<div class="hero"><div class="badge">Foxline</div><h1>Поиск</h1><p class="small">Открываю результаты…</p></div>`;
   }
-  if (url === 'http://foxline.com') {
+  if (url === 'foxline://home') {
     const tiles = (store.settings.startupTiles || []).map(tile => `<div class="tile" data-open="${escapeHtml(tile.url)}"><div class="title">${escapeHtml(tile.title)}</div><div class="small">${escapeHtml(tile.url)}</div></div>`).join('');
     return `<div class="hero"><div class="badge">${incognito ? t('incognito','Incognito') : 'Foxline'}</div><h1>${t('homeTitle','Foxline Browser')}</h1><p>${t('homeDesc','')}</p>
       <form class="search-big" id="homeSearch"><input id="homeQuery" placeholder=${t("homeSearch","Search or enter address")}/><button class="go-btn" type="submit">${t('searchBtn','Search')}</button></form>
@@ -301,7 +303,7 @@ function renderInternal(url) {
     return `<h2>${t('settingsTitle','Foxline Settings')}</h2><div class="settings-grid">
       <div class="card"><label>${t('language','Language')}</label><select id="setLang"></select><div class="small" style="margin-top:8px">${t('languageHint','')}</div></div>
       <div class="card"><label>${t('appearance','Theme')}</label><select id="setTheme"><option value="dark">${t('dark','Dark')}</option><option value="light">${t('light','Light')}</option></select><div class="small" style="margin-top:8px">${t('themeAutoSave','')}</div></div>
-      <div class="card"><label>${t('homePage','Home page')}</label><input id="setHome" type="text" value="${escapeHtml(store.settings.homePage||'http://foxline.com')}" /></div>
+      <div class="card"><label>${t('homePage','Home page')}</label><input id="setHome" type="text" value="${escapeHtml(store.settings.homePage||'foxline://home')}" /></div>
       <div class="card"><label>${t('searchSystem','Search system')}</label><input id="setSearch" type="text" value="${escapeHtml(store.settings.searchEngine||'https://www.google.com/search?q=')}" /><div class="small" style="margin-top:8px">${t('searchHint','')}</div></div>
       <div class="card"><label>${t('quickTiles','Quick tiles')}</label><textarea id="setTiles" style="width:100%;min-height:150px;border-radius:12px;border:1px solid var(--border);background:var(--bg2);color:var(--text);padding:12px">${escapeHtml(JSON.stringify(store.settings.startupTiles||[], null, 2))}</textarea></div>
       <div class="card actions"><button class="go-btn" id="saveSettings">${t('saveSettings','Save settings')}</button><button class="icon-btn" id="setDefaultBtn" style="padding:0 12px">${t('setDefault','Set default browser')}</button></div>
@@ -356,7 +358,7 @@ function bindInternal(root, url) {
     loadInActive(target);
   };
   const openHome = root.querySelector('#openHome');
-  if (openHome) openHome.onclick = () => loadInActive(store.settings.homePage || 'http://foxline.com');
+  if (openHome) openHome.onclick = () => loadInActive(store.settings.homePage || 'foxline://home');
   const foxResults = root.querySelector('#foxResults');
   if (foxResults) {
     foxResults.addEventListener('did-navigate', (e) => { if (e.url && !e.url.includes('duckduckgo.com/html')) loadInActive(e.url); });
@@ -388,7 +390,7 @@ function bindInternal(root, url) {
     const autoSave = async () => {
       let tiles = store.settings.startupTiles || [];
       try { tiles = JSON.parse(tilesEl.value || '[]'); } catch { return; }
-      await save({ homePage: homeEl.value || 'http://foxline.com', searchEngine: searchEl.value || 'https://www.google.com/search?q=', startupTiles: Array.isArray(tiles) ? tiles : [] }, true);
+      await save({ homePage: homeEl.value || 'foxline://home', searchEngine: searchEl.value || 'https://www.google.com/search?q=', startupTiles: Array.isArray(tiles) ? tiles : [] }, true);
     };
     homeEl.addEventListener('change', autoSave);
     searchEl.addEventListener('change', autoSave);
@@ -397,7 +399,7 @@ function bindInternal(root, url) {
     root.querySelector('#saveSettings').onclick = async () => {
       let tiles = store.settings.startupTiles || [];
       try { tiles = JSON.parse(tilesEl.value || '[]'); } catch { alert(t('tilesError','JSON error')); return; }
-      await save({ theme: themeEl.value, language: (root.querySelector('#setLang')?.value||store.settings.language||'auto'), homePage: homeEl.value || 'http://foxline.com', searchEngine: searchEl.value || 'https://www.google.com/search?q=', startupTiles: Array.isArray(tiles) ? tiles : [] }, false);
+      await save({ theme: themeEl.value, language: (root.querySelector('#setLang')?.value||store.settings.language||'auto'), homePage: homeEl.value || 'foxline://home', searchEngine: searchEl.value || 'https://www.google.com/search?q=', startupTiles: Array.isArray(tiles) ? tiles : [] }, false);
     };
     root.querySelector('#setDefaultBtn').onclick = async () => {
       const res = await window.foxline.setDefaultBrowser();

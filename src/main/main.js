@@ -17,13 +17,13 @@ function loadData() {
     bookmarks: [],
     history: [],
     sessionTabs: [],
-    sessionActiveTab: 'http://foxline.com',
+    sessionActiveTab: 'foxline://home',
     settings: {
       theme: 'dark',
-      homePage: 'http://foxline.com',
+      homePage: 'foxline://home',
       searchEngine: 'https://www.google.com/search?q=',
       startupTiles: [
-        { title: 'Foxline', url: 'http://foxline.com' },
+        { title: 'Google', url: 'https://www.google.com' },
         { title: 'YouTube', url: 'https://www.youtube.com' },
         { title: 'Wikipedia', url: 'https://www.wikipedia.org' },
         { title: 'GitHub', url: 'https://github.com' },
